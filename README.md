@@ -1,4 +1,4 @@
-#Network Routing Simulator
+## Network Routing Simulator
 
 Interactive web-based tool for simulating and visualizing **network routing algorithms**.  
 Supports **Distance Vector**, **Dijkstra (Link State)**, and **Bellman-Ford**, with real-time simulation, graph visualization, and exportable results.
@@ -51,7 +51,7 @@ npm install
 npm run dev
 ````
 
-##  Example
+## Example
 
 *Coming soon — screenshots and demo GIFs will go here.*
 
