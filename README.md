@@ -1,4 +1,4 @@
-# socket#Network Routing Simulator
+#Network Routing Simulator
 
 Interactive web-based tool for simulating and visualizing **network routing algorithms**.  
 Supports **Distance Vector**, **Dijkstra (Link State)**, and **Bellman-Ford**, with real-time simulation, graph visualization, and exportable results.
@@ -26,7 +26,6 @@ Supports **Distance Vector**, **Dijkstra (Link State)**, and **Bellman-Ford**, w
 
 ## Project Structure
 ```
-
 network-routing-visualizer/
 ├── backend/     # Java Spring Boot API
 ├── frontend/    # React + D3.js UI
@@ -34,9 +33,7 @@ network-routing-visualizer/
 ├── docs/        # Screenshots, report, demo video
 ├── tests/       # Unit & integration tests
 └── README.md
-
 ````
-
 
 ## Quick Start (Planned)
 ```bash
