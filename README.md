@@ -35,7 +35,7 @@ Supports **Distance Vector**, **Dijkstra (Link State)**, and **Bellman-Ford**, w
 ```bash
 # Clone the repo
 git clone https://github.com/hamdamme/network_routing_simulator.git
-cd network-routing-visualizer
+cd network_routing_simulator
 
 # Backend (Java + Maven)
 cd backend
