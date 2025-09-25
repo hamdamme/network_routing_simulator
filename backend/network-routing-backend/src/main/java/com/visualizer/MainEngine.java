@@ -1,3 +1,4 @@
+package com.visualizer;
 public static void main(String[] args) throws Exception {
     Topology topo = Initializer.load("configs/router1.txt");
 
@@ -6,11 +7,11 @@ public static void main(String[] args) throws Exception {
         r.initializeRoutingTable(topo);
     }
 
-    // run DV
-    DistanceVector dv = new DistanceVector();
-    dv.run(topo);
+    // Run chosen algorithm
+    RoutingAlgorithm algo = new Dijkstra();  // or new DistanceVector()
+    algo.run(topo);
 
-    // print results
+    // Print results
     for (Router r : topo.getRouters().values()) {
         System.out.println("Router " + r.getName());
         r.getRoutingTable().values().forEach(System.out::println);
