@@ -3,7 +3,6 @@
 Interactive web-based tool for simulating and visualizing **network routing algorithms**.  
 Supports **Distance Vector**, **Dijkstra (Link State)**, and **Bellman-Ford**, with real-time simulation, graph visualization, and exportable results.
 
-
 ## Features
 - Upload network topologies from `.txt` or `.json`.
 - Interactive **graph visualization** (nodes = routers, edges = links with costs).
@@ -16,17 +15,14 @@ Supports **Distance Vector**, **Dijkstra (Link State)**, and **Bellman-Ford**, w
 - Export results as **CSV, JSON, or graph images**.
 - Cloud-ready deployment with **Spring Boot (Java)** backend and **React/D3.js** frontend.
 
-
 ## Tech Stack
 - **Backend:** Java, Spring Boot, Maven  
 - **Frontend:** React, D3.js (for graph visualization)  
 - **Data Formats:** TXT, JSON, CSV  
 - **Deployment:** Render/Heroku (backend), Netlify/Vercel (frontend)  
 
-
 ## Project Structure
 ```
-network-routing-visualizer/
 ├── backend/     # Java Spring Boot API
 ├── frontend/    # React + D3.js UI
 ├── configs/     # Sample network topologies
@@ -38,7 +34,7 @@ network-routing-visualizer/
 ## Quick Start (Planned)
 ```bash
 # Clone the repo
-git clone https://github.com/YOUR_USERNAME/network-routing-visualizer.git
+git clone https://github.com/hamdamme/network_routing_simulator.git
 cd network-routing-visualizer
 
 # Backend (Java + Maven)
