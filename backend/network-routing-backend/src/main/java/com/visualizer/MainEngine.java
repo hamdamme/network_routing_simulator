@@ -16,8 +16,9 @@ public class MainEngine {
 
         // Initialize routing tables
         for (Router r : topo.getRouters().values()) {
-            r.initializeRoutingTable(topo);
-        }
+    r.displayTable();
+}
+
 
         // Pick algorithm
         RoutingAlgorithm algo;
