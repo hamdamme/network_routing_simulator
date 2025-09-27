@@ -12,10 +12,9 @@ public class Dijkstra implements RoutingAlgorithm {
     }
 
     private void runForRouter(Router source, Topology topology) {
-        // Distance map: node -> cost
         Map<String, Integer> dist = new HashMap<>();
-        // Previous node map: node -> previous hop
         Map<String, String> prev = new HashMap<>();
+        Set<String> visited = new HashSet<>();
 
         for (String routerName : topology.getRouters().keySet()) {
             dist.put(routerName, Integer.MAX_VALUE);
@@ -23,29 +22,27 @@ public class Dijkstra implements RoutingAlgorithm {
         }
         dist.put(source.getName(), 0);
 
-        // Min-heap (cost, node)
-        PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>(
-                Comparator.comparingInt(Map.Entry::getValue));
-        pq.add(new AbstractMap.SimpleEntry<>(source.getName(), 0));
+        PriorityQueue<String> pq = new PriorityQueue<>(Comparator.comparingInt(dist::get));
+        pq.add(source.getName());
 
         while (!pq.isEmpty()) {
-            String u = pq.poll().getKey();
-            Router routerU = topology.getRouter(u);
+            String u = pq.poll();
+            if (visited.contains(u)) continue;
+            visited.add(u);
 
+            Router routerU = topology.getRouter(u);
             for (Map.Entry<String, Integer> edge : routerU.getNeighbors().entrySet()) {
                 String v = edge.getKey();
                 int weight = edge.getValue();
-                int alt = dist.get(u) + weight;
-
-                if (alt < dist.get(v)) {
-                    dist.put(v, alt);
+                if (dist.get(u) != Integer.MAX_VALUE && dist.get(u) + weight < dist.get(v)) {
+                    dist.put(v, dist.get(u) + weight);
                     prev.put(v, u);
-                    pq.add(new AbstractMap.SimpleEntry<>(v, alt));
+                    pq.add(v);
                 }
             }
         }
 
-        // Update routing table
+        // Build routing table
         for (String dest : topology.getRouters().keySet()) {
             if (dest.equals(source.getName())) {
                 source.getRoutingTable().put(dest,
