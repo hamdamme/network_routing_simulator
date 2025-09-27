@@ -48,11 +48,13 @@ public class MainEngine {
         algo.run(topo);
 
         // print results
-        for (Router r : topo.getRouters().values()) {
-            System.out.println("Router " + r.getName());
-            r.getRoutingTable().values().forEach(System.out::println);
-            System.out.println("-----");
+        // print results
+    for (Router r : topo.getRouters().values()) {
+        System.out.println("Router " + r.getName());
+        r.getRoutingTable().values().forEach(System.out::println);
+        System.out.println("-----");
         }
+
         System.out.println();
     }
 }
