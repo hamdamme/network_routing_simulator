@@ -10,11 +10,14 @@ public class Initializer {
         Topology topology = new Topology();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
+            // ✅ Skip the first line (number of routers)
+            br.readLine();
+
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.trim().isEmpty()) continue;
 
-                // Example line: R1:(R2,200);(R3,700);(R4,200);
+                // Example line: R1: (R2, 140), (R4, 180)
                 String[] parts = line.split(":");
                 String routerName = parts[0].trim();
 
@@ -25,21 +28,23 @@ public class Initializer {
                 }
 
                 if (parts.length > 1) {
-                    String[] neighbors = parts[1].split(";");
-                    for (String neighbor : neighbors) {
+                    String[] neighbors = parts[1].split(",");
+                    for (String neighbor : parts[1].split("\\)")) {
                         if (!neighbor.trim().isEmpty()) {
-                            String n = neighbor.replaceAll("[()]", "").trim(); // R2,200
+                            String n = neighbor.replaceAll("[()]", "").trim(); // e.g. R2,140
                             String[] pair = n.split(",");
-                            String neighborName = pair[0].trim();
-                            int cost = Integer.parseInt(pair[1].trim());
+                            if (pair.length == 2) {
+                                String neighborName = pair[0].trim();
+                                int cost = Integer.parseInt(pair[1].trim());
 
-                            router.addNeighbor(neighborName, cost);
+                                router.addNeighbor(neighborName, cost);
 
-                            // Ensure neighbor exists in topology
-                            Router nb = topology.getRouter(neighborName);
-                            if (nb == null) {
-                                nb = new Router(neighborName);
-                                topology.addRouter(nb);
+                                // Ensure neighbor exists in topology
+                                Router nb = topology.getRouter(neighborName);
+                                if (nb == null) {
+                                    nb = new Router(neighborName);
+                                    topology.addRouter(nb);
+                                }
                             }
                         }
                     }
