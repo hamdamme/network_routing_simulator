@@ -49,11 +49,20 @@ public class MainEngine {
 
         // print results
         // print results
-    for (Router r : topo.getRouters().values()) {
-        System.out.println("Router " + r.getName());
-        r.getRoutingTable().values().forEach(System.out::println);
-        System.out.println("-----");
-        }
+   // pretty-print routing tables
+for (Router r : topo.getRouters().values()) {
+    System.out.println("Router " + r.getName());
+    System.out.println(String.format("%-12s %-12s %-6s", "Destination", "NextHop", "Cost"));
+    System.out.println("-----------------------------------");
+    for (RoutingEntry entry : r.getRoutingTable().values()) {
+        String dest = entry.getDestination();
+        String nextHop = (entry.getNextHop() == null) ? "—" : entry.getNextHop();
+        String costStr = (entry.getCost() == Integer.MAX_VALUE) ? "∞" : String.valueOf(entry.getCost());
+        System.out.println(String.format("%-12s %-12s %-6s", dest, nextHop, costStr));
+    }
+    System.out.println();
+}
+
 
         System.out.println();
     }
