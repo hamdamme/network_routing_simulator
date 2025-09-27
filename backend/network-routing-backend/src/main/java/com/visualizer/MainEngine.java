@@ -16,21 +16,20 @@ public class MainEngine {
 
         // Initialize routing tables
         for (Router r : topo.getRouters().values()) {
-    r.displayTable();
-}
-
+            r.initializeRoutingTable(topo);
+        }
 
         // Pick algorithm
         RoutingAlgorithm algo;
         switch (algoName) {
             case "dv":
-                algo = new DistanceVector();
+                algo = new DistanceVector();  // will add later
                 break;
             case "dijkstra":
-                algo = new Dijkstra();
+                algo = new Dijkstra();        // will add later
                 break;
             case "bf":
-                algo = new BellmanFord();
+                algo = new BellmanFord();     // you already have this
                 break;
             default:
                 System.out.println("Unknown algorithm: " + algoName);

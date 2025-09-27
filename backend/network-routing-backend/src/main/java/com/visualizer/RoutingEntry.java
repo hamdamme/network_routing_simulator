@@ -30,4 +30,9 @@ public class RoutingEntry {
     public void setCost(int cost) {
         this.cost = cost;
     }
+
+    @Override
+    public String toString() {
+        return String.format("dest=%s, nextHop=%s, cost=%d", destination, nextHop, cost);
+    }
 }

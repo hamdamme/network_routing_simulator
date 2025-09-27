@@ -12,6 +12,8 @@ public class Initializer {
         try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {
             String line;
             while ((line = br.readLine()) != null) {
+                if (line.trim().isEmpty()) continue;
+
                 // Example line: R1:(R2,200);(R3,700);(R4,200);
                 String[] parts = line.split(":");
                 String routerName = parts[0].trim();
@@ -33,7 +35,7 @@ public class Initializer {
 
                             router.addNeighbor(neighborName, cost);
 
-                            // Ensure neighbor router exists
+                            // Ensure neighbor exists in topology
                             Router nb = topology.getRouter(neighborName);
                             if (nb == null) {
                                 nb = new Router(neighborName);
