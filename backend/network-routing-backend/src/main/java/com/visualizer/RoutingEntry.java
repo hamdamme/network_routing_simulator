@@ -31,8 +31,9 @@ public class RoutingEntry {
         this.cost = cost;
     }
 
-    @Override
-    public String toString() {
-        return String.format("dest=%s, nextHop=%s, cost=%d", destination, nextHop, cost);
-    }
+   @Override
+public String toString() {
+    String costStr = (cost == Integer.MAX_VALUE) ? "∞" : String.valueOf(cost);
+    return String.format("dest=%s, nextHop=%s, cost=%s", destination, nextHop, costStr);
+}
 }
