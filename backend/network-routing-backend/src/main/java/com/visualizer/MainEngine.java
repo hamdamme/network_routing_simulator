@@ -1,5 +1,7 @@
 package com.visualizer;
 
+import com.ExporterJson;
+
 public class MainEngine {
     public static void main(String[] args) throws Exception {
         if (args.length < 2) {
@@ -63,14 +65,12 @@ public class MainEngine {
         }
 
         // export if user asked
-        // export if user asked
         if (System.getProperty("export") != null) {
             String base = System.getProperty("export");
             String safeName = name.replace(" ", "_");
             Exporter.exportToCSV(topo, base + "_" + safeName + ".csv");
             Exporter.exportToJSON(topo, base + "_" + safeName + ".json");
         }
-
 
         System.out.println();
     }
