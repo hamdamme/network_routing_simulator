@@ -71,6 +71,11 @@ public class MainEngine {
             Exporter.exportToCSV(topo, base + "_" + safeName + ".csv");
             Exporter.exportToJSON(topo, base + "_" + safeName + ".json");
         }
+// also export DOT graph if user asked
+if (System.getProperty("graph") != null) {
+    String filenameDot = System.getProperty("graph") + "_" + name.replace(" ", "_") + ".dot";
+    GraphExporter.exportToDot(topo, filenameDot);
+}
 
         System.out.println();
     }
