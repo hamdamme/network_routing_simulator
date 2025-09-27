@@ -1,7 +1,5 @@
 package com.visualizer;
 
-import com.ExporterJson;
-
 public class MainEngine {
     public static void main(String[] args) throws Exception {
         if (args.length < 2) {
