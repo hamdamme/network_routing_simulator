@@ -63,10 +63,14 @@ public class MainEngine {
         }
 
         // export if user asked
+        // export if user asked
         if (System.getProperty("export") != null) {
-            String filename = System.getProperty("export") + "_" + name.replace(" ", "_") + ".csv";
-            Exporter.exportToCSV(topo, filename);
+            String base = System.getProperty("export");
+            String safeName = name.replace(" ", "_");
+            Exporter.exportToCSV(topo, base + "_" + safeName + ".csv");
+            Exporter.exportToJSON(topo, base + "_" + safeName + ".json");
         }
+
 
         System.out.println();
     }
