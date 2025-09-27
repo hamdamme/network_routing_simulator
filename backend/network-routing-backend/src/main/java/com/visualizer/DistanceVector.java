@@ -1,32 +1,45 @@
 package com.visualizer;
 
-import java.util.Map;
+import java.util.*;
 
 public class DistanceVector implements RoutingAlgorithm {
+
     @Override
     public void run(Topology topology) {
         boolean updated;
+        int iterations = 0;
+
+        // Keep looping until no changes
         do {
             updated = false;
+            iterations++;
 
             for (Router router : topology.getRouters().values()) {
-                for (Map.Entry<String, Integer> nbEntry : router.getNeighbors().entrySet()) {
-                    String neighborName = nbEntry.getKey();
+                Map<String, RoutingEntry> table = router.getRoutingTable();
+
+                // Look at each neighbor
+                for (Map.Entry<String, Integer> neighborEntry : router.getNeighbors().entrySet()) {
+                    String neighborName = neighborEntry.getKey();
+                    int costToNeighbor = neighborEntry.getValue();
+
                     Router neighbor = topology.getRouter(neighborName);
+                    if (neighbor == null) continue;
 
-                    for (RoutingEntry nbEntryRt : neighbor.getRoutingTable().values()) {
-                        String dest = nbEntryRt.getDestination();
-                        int newCost = nbEntry.getValue() + nbEntryRt.getCost();
+                    // Look at neighbor's routing table
+                    for (RoutingEntry neighborRoute : neighbor.getRoutingTable().values()) {
+                        String dest = neighborRoute.getDestination();
+                        int newCost = (neighborRoute.getCost() == Integer.MAX_VALUE)
+                                ? Integer.MAX_VALUE
+                                : costToNeighbor + neighborRoute.getCost();
 
-                        RoutingEntry current = router.getRoutingTable().get(dest);
-                        if (newCost < current.getCost()) {
-                            current.setCost(newCost);
-                            current.setNextHop(neighborName);
+                        RoutingEntry current = table.get(dest);
+                        if (current == null || newCost < current.getCost()) {
+                            table.put(dest, new RoutingEntry(dest, neighborName, newCost));
                             updated = true;
                         }
                     }
                 }
             }
-        } while (updated);
+        } while (updated && iterations < 100); // prevent infinite loops
     }
 }
