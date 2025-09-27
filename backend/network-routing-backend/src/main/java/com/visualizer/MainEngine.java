@@ -65,16 +65,20 @@ public class MainEngine {
         }
 
         // export if user asked
-        if (System.getProperty("export") != null) {
-            String base = System.getProperty("export");
-            String safeName = name.replace(" ", "_");
-            Exporter.exportToCSV(topo, base + "_" + safeName + ".csv");
-            Exporter.exportToJSON(topo, base + "_" + safeName + ".json");
-        }
-// also export DOT graph if user asked
+       
+if (System.getProperty("export") != null) {
+    String base = System.getProperty("export");
+    String safeName = name.replace(" ", "_");
+    Exporter.exportToCSV(topo, base + "_" + safeName + ".csv");
+    ExporterJson.exportToJson(topo, base + "_" + safeName + ".json"); // <-- JSON exporter
+}
+
+// also export DOT + SVG + PNG if user asked
 if (System.getProperty("graph") != null) {
-    String filenameDot = System.getProperty("graph") + "_" + name.replace(" ", "_") + ".dot";
-    GraphExporter.exportToDot(topo, filenameDot);
+    String base = System.getProperty("graph");
+    String safeName = name.replace(" ", "_");
+    String baseFilename = base + "_" + safeName;
+    GraphExporter.exportToDot(topo, baseFilename);
 }
 
         System.out.println();
