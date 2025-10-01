@@ -1,4 +1,4 @@
-package com.visualizer.network_routing_service;
+package com.visualizer.networkroutingservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
