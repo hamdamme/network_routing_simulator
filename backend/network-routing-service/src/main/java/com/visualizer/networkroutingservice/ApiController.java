@@ -1,4 +1,4 @@
-package com.visualizer.network;
+package com.visualizer.networkroutingservice;
 
 import org.springframework.web.bind.annotation.*;
 import java.util.*;

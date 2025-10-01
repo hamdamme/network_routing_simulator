@@ -1,4 +1,4 @@
-package com.visualizer.network_routing_service;
+package com.visualizer.networkroutingservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
