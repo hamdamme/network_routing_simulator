@@ -4,15 +4,16 @@
 
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.visualizer</groupId>
+  <parent>
+    <groupId>com.visualizer</groupId>
+    <artifactId>network-routing-simulator</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
   <artifactId>network-routing-backend</artifactId>
-  <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>network-routing-backend</name>
-  <url>http://maven.apache.org</url>
-
-  <!-- Dependencies -->
   <dependencies>
     <!-- JSON (for export) -->
     <dependency>
@@ -29,44 +30,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <!-- Java version & encoding -->
-  <properties>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <maven.compiler.release>17</maven.compiler.release>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
-  <build>
-    <plugins>
-      <!-- Compiler plugin -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.13.0</version>
-        <configuration>
-          <release>17</release>
-        </configuration>
-      </plugin>
-
-      <!-- Surefire plugin for running tests -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.1.2</version>
-      </plugin>
-
-      <!-- Exec plugin (run MainEngine easily) -->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>3.1.0</version>
-        <configuration>
-          <mainClass>com.visualizer.MainEngine</mainClass>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>
