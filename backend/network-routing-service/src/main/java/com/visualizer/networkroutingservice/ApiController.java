@@ -1,6 +1,16 @@
 package com.visualizer.networkroutingservice;
 
 import org.springframework.web.bind.annotation.*;
+
+import com.visualizer.BellmanFord;
+import com.visualizer.Dijkstra;
+import com.visualizer.DistanceVector;
+import com.visualizer.Initializer;
+import com.visualizer.Router;
+import com.visualizer.RoutingAlgorithm;
+import com.visualizer.RoutingEntry;
+import com.visualizer.Topology;
+
 import java.util.*;
 
 @RestController
@@ -19,19 +29,52 @@ public class ApiController {
         public Map<String, List<Map<String, Object>>> tables = new HashMap<>();
     }
 
-    @PostMapping("/run")
-    public RunResponse runAlgorithm(@RequestBody RunRequest req) {
-        RunResponse response = new RunResponse();
-        response.algorithm = req.algorithm;
+   @PostMapping("/run")
+public RunResponse runAlgorithm(@RequestBody RunRequest req) throws Exception {
+    RunResponse response = new RunResponse();
+    response.algorithm = req.algorithm;
 
-        // For now just echo dummy result (later we wire backend)
-        Map<String, Object> row = new HashMap<>();
-        row.put("destination", "R2");
-        row.put("nextHop", "R2");
-        row.put("cost", 140);
+    // Load topology from config string
+    Topology topo = Initializer.loadFromString(req.config);
 
-        response.tables.put("R1", List.of(row));
-
-        return response;
+    // Choose algorithm
+    RoutingAlgorithm algo;
+    switch (req.algorithm.toLowerCase()) {
+        case "dv":
+            algo = new DistanceVector();
+            break;
+        case "dijkstra":
+            algo = new Dijkstra();
+            break;
+        case "bf":
+            algo = new BellmanFord();
+            break;
+        default:
+            throw new IllegalArgumentException("Unknown algorithm: " + req.algorithm);
     }
+
+    // Initialize routing tables
+    for (Router r : topo.getRouters().values()) {
+        r.initializeRoutingTable(topo);
+    }
+
+    // Run algorithm
+    algo.run(topo);
+
+    // Collect results
+    for (Router r : topo.getRouters().values()) {
+        List<Map<String, Object>> table = new ArrayList<>();
+        for (RoutingEntry entry : r.getRoutingTable().values()) {
+            Map<String, Object> row = new HashMap<>();
+            row.put("destination", entry.getDestination());
+            row.put("nextHop", entry.getNextHop() == null ? "—" : entry.getNextHop());
+            row.put("cost", entry.getCost() == Integer.MAX_VALUE ? "∞" : entry.getCost());
+            table.add(row);
+        }
+        response.tables.put(r.getName(), table);
+    }
+
+    return response;
+}
+
 }
