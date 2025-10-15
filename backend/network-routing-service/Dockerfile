@@ -1,16 +1,19 @@
 # ---- Build stage ----
 FROM maven:3.9-eclipse-temurin-17 AS build
-WORKDIR /app
+WORKDIR /workspace
 
-# copy project and build (no go-offline)
-COPY pom.xml .
-COPY src ./src
-RUN mvn -B -q -DskipTests clean package
+# copy the whole repo so Maven can see all modules
+COPY . .
+
+# build the service AND its required modules (e.g., network-routing-backend)
+RUN mvn -B -q -DskipTests -pl backend/network-routing-service -am clean package
 
 # ---- Runtime stage ----
 FROM eclipse-temurin:17-jre
 WORKDIR /app
-COPY --from=build /app/target/*-SNAPSHOT.jar app.jar
+
+# copy the service jar
+COPY --from=build /workspace/backend/network-routing-service/target/*-SNAPSHOT.jar app.jar
 
 ENV JAVA_TOOL_OPTIONS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
 EXPOSE 8080
