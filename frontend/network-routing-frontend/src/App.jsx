@@ -1,12 +1,15 @@
 import { useState } from 'react';
 
+// ✅ Put this outside your component
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8080";
+
 function App() {
   const [config, setConfig] = useState("");
   const [algorithm, setAlgorithm] = useState("dijkstra");
   const [result, setResult] = useState(null);
 
   const runSimulation = async () => {
-    const response = await fetch("http://localhost:8080/api/run", {
+    const response = await fetch(`${API_BASE}/api/run`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ algorithm, config })
@@ -15,6 +18,7 @@ function App() {
     const data = await response.json();
     setResult(data);
   };
+
 
   return (
     <div style={{ padding: "20px" }}>
