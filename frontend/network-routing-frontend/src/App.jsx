@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import GraphView from "./GraphView";
-<GraphView configText={config} />
 
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8080";
