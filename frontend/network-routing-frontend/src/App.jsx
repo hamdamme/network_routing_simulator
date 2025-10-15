@@ -20,6 +20,10 @@ function App() {
     const data = await response.json();
     setResult(data);
   };
+  const compareAlgorithms = () => {
+    // TODO: implement API calls here
+    console.log("Comparing all algorithms...");
+  };
 
 
   return (
@@ -43,6 +47,8 @@ function App() {
       </select>
 
       <button onClick={runSimulation}>Run Simulation</button>
+      <button onClick={compareAlgorithms}>Compare All</button>
+
 
       {result && (
         <pre>{JSON.stringify(result, null, 2)}</pre>
