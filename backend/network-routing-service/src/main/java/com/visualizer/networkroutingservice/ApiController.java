@@ -4,7 +4,7 @@ import com.visualizer.*;  // ✅ import your backend classes
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
 public class ApiController {
