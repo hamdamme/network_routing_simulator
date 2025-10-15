@@ -1,5 +1,2 @@
 target
 .git
-.gitignore
-README.md
-Dockerfile
