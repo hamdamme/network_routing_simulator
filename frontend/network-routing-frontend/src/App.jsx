@@ -1,5 +1,9 @@
 import { useState } from 'react';
 
+import GraphView from "./GraphView";
+<GraphView configText={config} />
+
+
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8080";
 
 function App() {
@@ -30,6 +34,7 @@ function App() {
         value={config}
         onChange={(e) => setConfig(e.target.value)}
       />
+      <GraphView configText={config} />
 
       <label>Algorithm:</label>
       <select value={algorithm} onChange={(e) => setAlgorithm(e.target.value)}>
