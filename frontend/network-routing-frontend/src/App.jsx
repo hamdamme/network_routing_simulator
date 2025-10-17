@@ -9,6 +9,9 @@ function App() {
   const [config, setConfig] = useState("");
   const [algorithm, setAlgorithm] = useState("dijkstra");
   const [result, setResult] = useState(null);
+  const [compareResults, setCompareResults] = useState(null);
+  const [loadingCompare, setLoadingCompare] = useState(false);
+
 
   const runSimulation = async () => {
     const response = await fetch(`${API_BASE}/api/run`, {
@@ -20,10 +23,35 @@ function App() {
     const data = await response.json();
     setResult(data);
   };
-  const compareAlgorithms = () => {
-    // TODO: implement API calls here
-    console.log("Comparing all algorithms...");
-  };
+  const compareAlgorithms = async () => {
+  if (!config.trim()) { alert("Paste a topology first."); return; }
+  try {
+    setLoadingCompare(true);
+    const [dj, dv, bf] = await Promise.all([
+      runAlgo("dijkstra"),
+      runAlgo("dv"),
+      runAlgo("bf")
+    ]);
+    setCompareResults({ dijkstra: dj, dv, bf });
+  } catch (e) {
+    console.error(e);
+    alert("Compare failed. Check console for details.");
+  } finally {
+    setLoadingCompare(false);
+  }
+};
+
+
+  const runAlgo = async (algo) => {
+  const resp = await fetch(`${API_BASE}/api/run`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ algorithm: algo, config })
+  });
+  if (!resp.ok) throw new Error(`API ${algo} failed`);
+  return resp.json();
+};
+
 
 
   return (
@@ -48,6 +76,16 @@ function App() {
 
       <button onClick={runSimulation}>Run Simulation</button>
       <button onClick={compareAlgorithms}>Compare All</button>
+      {loadingCompare && <p>Comparing…</p>}
+
+{compareResults && (
+  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 12, marginTop: 12 }}>
+    <div><h3>Dijkstra</h3><pre>{JSON.stringify(compareResults.dijkstra, null, 2)}</pre></div>
+    <div><h3>Distance Vector</h3><pre>{JSON.stringify(compareResults.dv, null, 2)}</pre></div>
+    <div><h3>Bellman-Ford</h3><pre>{JSON.stringify(compareResults.bf, null, 2)}</pre></div>
+  </div>
+)}
+
 
 
       {result && (
